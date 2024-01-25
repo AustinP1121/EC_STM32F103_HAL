@@ -121,12 +121,6 @@
  * put function descriptions here
  * <br>
  *
- * @subsection Reg_Acc Reg_Acc
- * Functions that allow for the direct access of peripheral registers.
- * <br><br>
- * put function descriptions here
- * <br>
- *
  * <br><A HREF="#Contents">Table of Contents</A><br>
  * <hr>
  *
@@ -172,8 +166,15 @@
  * <A NAME="Testing"></A>
  *
  * @section Validation System Testing and Validation
- * This section is where testing and validation is demonstrated and explained.  How test cases were developed.  How test cases were determined.  Estimated number of
- * bugs per 1k of code.  Bug tracking.  Things to do.
+ *
+ * Test cases will be created and implemented based on black-box testing methods.
+ *
+ * By setting an expected input and output for the component (i.e. a HAL module function),
+ * the result of each test will be used to evaluate if requirements have been
+ * met.
+ *
+ * Performance metrics (number of clock cycles consumed by a task) will be recorded
+ * and analyzed via Metrix++.
  *
  * @subsection Bugs Bug Tracking
  * Bugs and other software issues are documented and triaged on the project's GitHub.
@@ -181,16 +182,11 @@
  *
  * @subsection Tools Tools
  *
- *
- *
- * <br><A HREF="#Contents">Table of Contents</A><br>
- * <hr>
- *
- *
+ * - Unity/Throw the Switch
+ * - Metrix++
  *
  * <br><A HREF="#Contents">Table of Contents</A><br>
  * <hr>
- *
  */
 
 #include "Utilities/STM32F103xx_Types.h"
