@@ -85,6 +85,17 @@
  * @section HAL HAL
  * Hardware Abstraction Layer (HAL) functions for each peripheral
  *
+ * @subsection Clock Clock
+ * Functions relating to the control and configuration of the Clock.
+ * <br><br>
+ * @see RCC_Clock_HAL_Enable(int peripheral_id);
+ * @see RCC_Clock_HAL_Disable(int peripheral_id);
+ * @see RCC_Clock_HAL_Reset(int peripheral_id);
+ * @see RCC_Clock_HAL_Status(int peripheral_id);
+ * @see RCC_Clock_HAL_Write_Reg(uint32_t *register_address, uint32_t write_value);
+ * @see RCC_Clock_HAL_Read_Reg(uint32_t *register_address);
+ * <br>
+ *
  * @subsection DMA DMA
  * Functions relating to the control and configuration of the DMA channels.
  * <br><br>
@@ -188,6 +199,3 @@
  * <br><A HREF="#Contents">Table of Contents</A><br>
  * <hr>
  */
-
-#include "Utilities/STM32F103xx_Types.h"
-
