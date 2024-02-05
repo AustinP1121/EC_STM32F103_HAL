@@ -219,4 +219,7 @@ void RCC_Clock_HAL_Write_Reg(uint32_t *register_address, uint32_t write_value);
  */
 uint32_t RCC_Clock_HAL_Read_Reg(uint32_t *register_address);
 
+
+
+
 /***END OF FILE***************************************************************/
