@@ -5,7 +5,7 @@
 * Origin Date           :   2024-01-25
 * Version               :   dev1.1.1
 * Compiler              :   ARM-NONE-EABI-GCC
-* Target                :   STM32F103xx
+* Target                :   STM32F103C8
 * Notes                 :   None
 */
 
@@ -210,16 +210,15 @@ int RCC_Clock_HAL_Status(int peripheral_id);
  * @param register_address: physical address of the register.
  * @param write_value: value to write to the register.
  */
-
-void RCC_Clock_HAL_Write_Reg(uint32_t *register_address, uint32_t write_value);
+void RCC_Clock_HAL_Write_Reg(uint32_t* register_address, uint32_t const write_value);
 
 /**
  * Retrieves and returns the value of a register.
  * @param register_address: physical address of the register.
  */
-uint32_t RCC_Clock_HAL_Read_Reg(uint32_t *register_address);
+uint32_t RCC_Clock_HAL_Read_Reg(uint32_t* register_address);
 
 
-
+#endif
 
 /***END OF FILE***************************************************************/

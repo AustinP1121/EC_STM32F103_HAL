@@ -1,6 +1,6 @@
 /*******************************************************************************
-* Title                 :   HAL Clock Interface Implementations
-* Filename              :   HAL_Clock_Interface
+* Title                 :   Clock Driver Configuration
+* Filename              :   Clock_Driver_Config
 * Author                :   Austin Pedigo
 * Origin Date           :   2024-02-06
 * Version               :   1.1.1
@@ -8,6 +8,7 @@
 * Target                :   STM32F103C8
 * Notes                 :   None
 ********************************/
+
 /*************** SOURCE REVISION LOG *****************************************
 *
 *    Date    Version   Author         Description
@@ -18,8 +19,7 @@
 /******************************************************************************
 * Includes
 *******************************************************************************/
-#include "HAL_Clock_Interface.h"
-#include "Driver/Clock_Driver.h"
+#include "../HAL_Clock_Interface.h"
 
 /******************************************************************************
 * Module Preprocessor Constants
@@ -29,57 +29,49 @@
 * Module Preprocessor Macros
 *******************************************************************************/
 
-
 /******************************************************************************
 * Module Typedefs
 *******************************************************************************/
 
+/**
+ * Lays out each register in the Reset and Clock Control (RCC) space.
+ *
+ * Each register is 32 bits wide.
+ * */
+typedef struct {
+	uint32_t CR; /**<Control Register */
+	uint32_t CFGR; /**<Configuration Register */
+	uint32_t CIR; /**<Interrupt Register */
+	uint32_t APB2RSTR; /**<APB2 Peripheral Reset Register */
+	uint32_t APB1RSTR; /**<APB1 Peripheral Reset Register */
+	uint32_t AHBENR; /**<AHB Peripheral Clock Enable Register */
+	uint32_t APB2ENR; /**<APB2 Peripheral Clock Enable Register */
+	uint32_t APB1ENR; /**<APB1 Peripheral Clock Enable Register */
+	uint32_t BDCR; /**<Backup Domain Control Register */
+	uint32_t CSR; /**<Control/Status Register */
+	uint32_t AHBRSTR; /**<AHB Peripheral Clock Reset Register */
+	uint32_t CFGR2; /**<Clock Configuration Register 2 Register */
+} volatile * const RCC_Register_Map_Ptr;
+
+/**
+ * RCC Register IDs
+ * */
+enum{
+	CR,
+	CFGR,
+	CIR,
+	APB2RSTR,
+	APB1RSTR,
+	AHBENR,
+	APB2ENR,
+	BDCR,
+	CSR,
+	AHBRSTR,
+	CFGR2
+};
 
 /******************************************************************************
 * Module Variable Definitions
 *******************************************************************************/
 
-
-/******************************************************************************
-* Function Definitions
-*******************************************************************************/
-
-void RCC_Clock_HAL_Enable(int peripheral_id)
-{
-	//enable peripheral clock via driver function call
-	Driver_Clock_Bit_Write();
-
-}
-
-void RCC_Clock_HAL_Disable(int peripheral_id)
-{
-
-}
-
-void RCC_Clock_HAL_Reset(int peripheral_id)
-{
-
-}
-
-int RCC_Clock_HAL_Status(int peripheral_id)
-{
-	return 0;
-}
-
-void RCC_Clock_HAL_Write_Reg(uint32_t *register_address, uint32_t write_value)
-{
-
-}
-
-uint32_t RCC_Clock_HAL_Read_Reg(uint32_t *register_address)
-{
-	return 0;
-}
-
 /*************** END OF FUNCTIONS ***************************************************************************/
-
-
-
-
-
-
