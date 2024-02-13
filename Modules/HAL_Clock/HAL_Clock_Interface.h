@@ -24,7 +24,7 @@
  * INCLUDES
  *****************************************************************************/
 #include "../../EC_PSD_STM32F103_HAL.c"
-
+#include "Driver/Clock_Driver.h"
 
 /*****************************************************************************
  * PREPROCESSOR CONSTANTS
@@ -35,113 +35,86 @@
  * TYPE DEFINTIONS
  *****************************************************************************/
 
-/**
- * Enum containing bit locations for each peripheral within the clock
- * enable registers.
- *
- * Each peripheral clock is enabled or disabled using the following registers:
- * 	- RCC_APBENR
- * 	- RCC_APB1ENR
- * 	- RCC_APB2ENR
- *
- * Ex. the clock enable bit for Port A is located at
- * location 2 within the RCC_APB2ENR register.
- */
+typedef enum adc_select
+{
+	ADC_1 = 9,
+	ADC_2 = 10
+} adc_select_t;
 
-enum peripheral_id_type{
+typedef enum dma_channel
+{
+	DMA_1,
+	DMA_2
+} dma_channel_t;
 
-	/**DMA 1 clock enable bit 0, RCC_APBENR*/
-	DMA_1 = 0,
+typedef enum i2c_interface
+{
+	I2C_1 = 21,
+	I2C_2 = 22
+}i2c_interface_t;
 
-	/**DMA 2 clock enable bit 1, RCC_APBENR*/
-	DMA_2 = 1,
+typedef enum timer_select
+{
+	TIM_1 = 11,
 
-	/**SRAM Interface clock enable bit 2, RCC_APBENR*/
-	SRAM_INTERFACE = 2,
-
-	/**FLITF clock enable bit 4, RCC_APBENR*/
-	FLITF = 4,
-
-	/**CRC clock enable bit 6, RCC_APBENR*/
-	CRC = 6,
-
-	/**USB OTG FS clock enable bit 12, RCC_APBENR*/
-	USB_OTG_FS = 12,
-
-	/**Ethernet MAC clock enable bit 14, RCC_APBENR*/
-	ETHERNET_MAC = 14,
-
-	/**Ethernet MAC TX clock enable bit 15, RCC_APBENR*/
-	ETHERNET_MAX_TX = 15,
-
-	/**Ethernet MAC RX clock enable bit 16, RCC_APBENR*/
-	ETHERNET_MAC_RX = 16,
-
-
-	/**Timer 2 clock enable bit 0, RCC_APB1ENR*/
 	TIM_2 = 0,
 
-	/**Timer 3 clock enable bit 1, RCC_APB1ENR*/
 	TIM_3 = 1,
 
-	/**Timer 4 clock enable bit 2, RCC_APB1ENR*/
 	TIM_4 = 2,
 
-	/**Timer 5 clock enable bit 3, RCC_APB1ENR*/
 	TIM_5 = 3,
 
-	/**Timer 6 clock enable bit 4, RCC_APB1ENR*/
 	TIM_6 = 4,
 
-	/**Timer 3 clock enable bit 5, RCC_APB1ENR*/
 	TIM_7 = 5,
 
-	/**Window Watchdog clock enable bit 11, RCC_APB1ENR*/
-	WIN_WATDOG = 11,
+	TIM_8 = 13,
 
-	/**SPI 2 clock enable bit 14, RCC_APB1ENR*/
+	TIM_9 = 19,
+
+	TIM_10 = 20,
+
+	TIM_11 = 21,
+
+	TIM_12 = 6,
+
+	TIM_13 = 7,
+
+	TIM_14 = 8
+} timer_select_t;
+
+typedef enum uart_select
+{
+	UART_1 = 14,
+
+	UART_2 = 17,
+
+	UART_3 = 18,
+
+	UART_4 = 19,
+
+	UART_5 = 20
+} uart_select_t;
+
+typedef enum clock_status
+{
+	DISABLE,
+
+	ENABLE
+} clock_status_t;
+
+typedef enum spi_interface
+{
+	SPI_1 = 12,
+
 	SPI_2 = 14,
 
-	/**SPI 3 clock enable bit 15, RCC_APB1ENR*/
-	SPI_3 = 15,
+	SPI_3 = 15
+} spi_interface_t;
 
-	/**USART 2 clock enable bit 17, RCC_APB1ENR*/
-	USART_2 = 17,
-
-	/**USART 3 clock enable bit 18, RCC_APB1ENR*/
-	USART_3 = 18,
-
-	/**USART 4 clock enable bit 19, RCC_APB1ENR*/
-	USART_4 = 19,
-
-	/**USART 5 clock enable bit 20, RCC_APB1ENR*/
-	USART_5 = 20,
-
-	/**I2C 1 clock enable bit 21, RCC_APB1ENR*/
-	I2C_1 = 21,
-
-	/**I2C 2 clock enable bit 22, RCC_APB1ENR*/
-	I2C_2 = 22,
-
-	/**CAN 1 clock enable bit 25, RCC_APB1ENR*/
-	CAN_1 = 25,
-
-	/**CAN 2 clock enable bit 26, RCC_APB1ENR*/
-	CAN_2 = 26,
-
-	/**Backup Interface clock enable bit 27, RCC_APB1ENR*/
-	BACKUP_INTERFACE = 27,
-
-	/**Power Interface clock enable bit 28, RCC_APB1ENR*/
-	POWER_INTERFACE = 28,
-
-	/**DAC clock enable bit 29, RCC_APB1ENR*/
-	DAC = 29,
-
-
-	/**Alternate Function clock enable bit 1, RCC_APB2ENR*/
-	ALT_FUNC = 1,
-
+typedef enum port_number
+{
 	/**Port A clock enable bit 2, RCC_APB2ENR*/
 	PORT_A = 2,
 
@@ -155,55 +128,72 @@ enum peripheral_id_type{
 	PORT_D = 5,
 
 	/**Port E clock enable bit 6, RCC_APB2ENR*/
-	PORT_E = 6,
-
-	/**ADC 1 clock enable bit 9, RCC_APB2ENR*/
-	ADC_1 = 9,
-
-	/**ADC 2 clock enable bit 10, RCC_APB2ENR*/
-	ADC_2 = 10,
-
-	/**Timer 1 clock enable bit 11, RCC_APB2ENR*/
-	TIM_1 = 11,
-
-	/**SPI 1 clock enable bit 12, RCC_APB2ENR*/
-	SPI_1 = 12,
-
-	/**USART 1 clock enable bit 14, RCC_APB2ENR*/
-	USART_1 = 14
-};
+	PORT_E = 6
+} port_number_t;
 
 /*****************************************************************************
  * FUNCTION PROTOTYPES
  *****************************************************************************/
+/**
+ * Disables the clock for the selected SPI interface.
+ * @param interface_num: chooses one of the SPI interfaces
+ * 	@see spi_interface_t
+ * @param status: disable (0) or enable (1)
+ */
+void RCC_Clock_HAL_SPI(spi_interface_t interface_num, clock_status_t status);
 
 /**
- * Enables the clock for a given peripheral.
- * @param peripheral_id: peripheral type that correlates to a bit location within
- * the RCC registers.
+ * Sets the clock for the selected DMA channel.
+ * @param interface_num: chooses one of the DMA channels,
+ *	@see dma_channel_t
+ * @param status: disable (0) or enable (1)
  */
-void RCC_Clock_HAL_Enable(int peripheral_id);
+void RCC_Clock_HAL_DMA_Set(dma_channel_t channel, clock_status_t status);
 
 /**
- * Disables the clock for a given peripheral.
- * @param peripheral_id: peripheral type that correlates to a bit location within
- * the RCC registers.
+ * Sets the clock for the selected I2C interface.
+ * @param interface_num: chooses one of the I2C interfaces,
+ *	@see i2c_channel_t
+ * @param status: disable (0) or enable (1)
  */
-void RCC_Clock_HAL_Disable(int peripheral_id);
+void RCC_Clock_HAL_I2C_Set(i2c_interface_t interface_num, clock_status_t status);
 
 /**
- * Resets the clock for a given peripheral.
- * @param peripheral_id: peripheral type that correlates to a bit location within
- * the RCC registers.
+ * Sets the clock for the selected ADC interface.
+ * @param interface_num: chooses one of the interfaces,
+ *	@see adc_select_t
+ * @param status: disable (0) or enable (1)
  */
-void RCC_Clock_HAL_Reset(int peripheral_id);
+void RCC_Clock_HAL_ADC_Set(adc_select_t interface_num, clock_status_t status);
 
 /**
- * Returns the status of a peripheral clock.
- * @param peripheral_id: peripheral type that correlates to a bit location within
- * the RCC registers.
+ * Sets the clock for the selected UART channel.
+ * @param interface_num: chooses one of the UART channels,
+ *	@see uart_select_t
+ * @param status: disable (0) or enable (1)
  */
-int RCC_Clock_HAL_Status(int peripheral_id);
+void RCC_Clock_HAL_UART_Set(uart_select_t interface_num, clock_status_t status);
+
+/**
+ * Sets the clock for the alternative function peripherals.
+ */
+void RCC_Clock_HAL_AFIOEN_Set();
+
+/**
+ * Sets the clock for the selected GPIO port.
+ * @param port_num: chooses one of the UART channels,
+ *	@see port_number_t
+ * @param status: disable (0) or enable (1)
+ */
+void RCC_Clock_HAL_GPIO_Set(port_number_t port_num, clock_status_t status);
+
+/**
+ * Sets the clock for the selected timer.
+ * @param timer_num: chooses one of the UART channels,
+ *	@see timer_select_t
+ * @param status: disable (0) or enable (1)
+ */
+void RCC_Clock_HAL_Timer_Set(timer_select_t timer_num, clock_status_t status);
 
 /**
  * Writes to an RCC register.

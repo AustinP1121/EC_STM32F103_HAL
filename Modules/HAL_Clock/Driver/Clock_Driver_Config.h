@@ -49,8 +49,6 @@ typedef struct {
 	uint32_t APB1ENR; /**<APB1 Peripheral Clock Enable Register */
 	uint32_t BDCR; /**<Backup Domain Control Register */
 	uint32_t CSR; /**<Control/Status Register */
-	uint32_t AHBRSTR; /**<AHB Peripheral Clock Reset Register */
-	uint32_t CFGR2; /**<Clock Configuration Register 2 Register */
 } volatile * const RCC_Register_Map_Ptr;
 
 /**
@@ -64,10 +62,9 @@ enum{
 	APB1RSTR,
 	AHBENR,
 	APB2ENR,
+	APB1ENR,
 	BDCR,
-	CSR,
-	AHBRSTR,
-	CFGR2
+	CSR
 };
 
 /******************************************************************************

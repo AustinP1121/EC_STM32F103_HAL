@@ -11,7 +11,7 @@
 
 /*************** SOURCE REVISION LOG *****************************************
 *
-*    Date    Version   Author         Description
+*    Date    	Version   	  Author       Description
 *  2024-01-06   dev 1.1.1   Austin Pedigo  Initial Release.
 *
 ********************************/
@@ -67,17 +67,14 @@ void Driver_Clock_Bit_Write(int rcc_register_id, int bit_pos)
 	case(APB2ENR):
 		RCC_register_map_base->APB2ENR |= (1UL << bit_pos);
 		break;
+	case(APB1ENR):
+		RCC_register_map_base->APB1ENR |= (1UL << bit_pos);
+		break;
 	case(BDCR):
 		RCC_register_map_base->BDCR |= (1UL << bit_pos);
 		break;
 	case(CSR):
 		RCC_register_map_base->CSR |= (1UL << bit_pos);
-		break;
-	case(AHBRSTR):
-		RCC_register_map_base->AHBRSTR |= (1UL << bit_pos);
-		break;
-	case(CFGR2):
-		RCC_register_map_base->AHBRSTR |= (1UL << bit_pos);
 		break;
 	default:
 		//TODO: !!invoke error handler
@@ -107,17 +104,14 @@ void Driver_Clock_Bit_Clear(int rcc_register_id, int bit_pos)
 	case(APB2ENR):
 		RCC_register_map_base->APB2ENR &= ~(1UL << bit_pos);
 		break;
+	case(APB1ENR):
+		RCC_register_map_base->APB1ENR &= ~(1UL << bit_pos);
+		break;
 	case(BDCR):
 		RCC_register_map_base->BDCR &= ~(1UL << bit_pos);
 		break;
 	case(CSR):
 		RCC_register_map_base->CSR &= ~(1UL << bit_pos);
-		break;
-	case(AHBRSTR):
-		RCC_register_map_base->AHBRSTR &= ~(1UL << bit_pos);
-		break;
-	case(CFGR2):
-		RCC_register_map_base->AHBRSTR &= ~(1UL << bit_pos);
 		break;
 	default:
 		//TODO: !!invoke error handler
@@ -142,95 +136,85 @@ int Driver_Clock_Bit_Read(int rcc_register_id, int bit_pos)
 		}
 		break;
 	case(CFGR):
-			if(RCC_register_map_base->CFGR & (1UL << bit_pos))
-			{
-				bit_val = 1;
-			}
-			else
-			{
-				bit_val = 0;
-			}
-			break;
+		if(RCC_register_map_base->CFGR & (1UL << bit_pos))
+		{
+			bit_val = 1;
+		}
+		else
+		{
+			bit_val = 0;
+		}
+		break;
 	case(CIR):
-			if(RCC_register_map_base->CIR & (1UL << bit_pos))
-			{
-				bit_val = 1;
-			}
-			else
-			{
-				bit_val = 0;
-			}
-			break;
+		if(RCC_register_map_base->CIR & (1UL << bit_pos))
+		{
+			bit_val = 1;
+		}
+		else
+		{
+			bit_val = 0;
+		}
+		break;
 	case(APB2RSTR):
-			if(RCC_register_map_base->APB2RSTR & (1UL << bit_pos))
-			{
-				bit_val = 1;
-			}
-			else
-			{
-				bit_val = 0;
-			}
-			break;
+		if(RCC_register_map_base->APB2RSTR & (1UL << bit_pos))
+		{
+			bit_val = 1;
+		}
+		else
+		{
+			bit_val = 0;
+		}
+		break;
 	case(AHBENR):
-			if(RCC_register_map_base->AHBENR & (1UL << bit_pos))
-			{
-				bit_val = 1;
-			}
-			else
-			{
-				bit_val = 0;
-			}
-			break;
+		if(RCC_register_map_base->AHBENR & (1UL << bit_pos))
+		{
+			bit_val = 1;
+		}
+		else
+		{
+			bit_val = 0;
+		}
+		break;
 	case(APB2ENR):
-			if(RCC_register_map_base->APB2ENR & (1UL << bit_pos))
-			{
-				bit_val = 1;
-			}
-			else
-			{
-				bit_val = 0;
-			}
-			break;
+		if(RCC_register_map_base->APB2ENR & (1UL << bit_pos))
+		{
+			bit_val = 1;
+		}
+		else
+		{
+			bit_val = 0;
+		}
+		break;
+	case(APB1ENR):
+		if(RCC_register_map_base->APB1ENR & (1UL << bit_pos))
+		{
+			bit_val = 1;
+		}
+		else
+		{
+			bit_val = 0;
+		}
+		break;
 	case(BDCR):
-			if(RCC_register_map_base->BDCR & (1UL << bit_pos))
-			{
-				bit_val = 1;
-			}
-			else
-			{
-				bit_val = 0;
-			}
-			break;
+		if(RCC_register_map_base->BDCR & (1UL << bit_pos))
+		{
+			bit_val = 1;
+		}
+		else
+		{
+			bit_val = 0;
+		}
+		break;
 	case(CSR):
-			if(RCC_register_map_base->CSR & (1UL << bit_pos))
-			{
-				bit_val = 1;
-			}
-			else
-			{
-				bit_val = 0;
-			}
-			break;
-	case(AHBRSTR):
-			if(RCC_register_map_base->AHBRSTR & (1UL << bit_pos))
-			{
-				bit_val = 1;
-			}
-			else
-			{
-				bit_val = 0;
-			}
-			break;
-	case(CFGR2):
-			if(RCC_register_map_base->CFGR2 & (1UL << bit_pos))
-			{
-				bit_val = 1;
-			}
-			else
-			{
-				bit_val = 0;
-			}
-			break;
+		if(RCC_register_map_base->CSR & (1UL << bit_pos))
+		{
+			bit_val = 1;
+		}
+		else
+		{
+			bit_val = 0;
+		}
+		break;
 	default:
 		//TODO: !!!invoke error handler!!!
 		break;
@@ -261,17 +245,14 @@ void Driver_Clock_Reg_Write(int rcc_register_id, uint32_t const write_val)
 	case(APB2ENR):
 		RCC_register_map_base->APB2ENR = write_val;
 		break;
+	case(APB1ENR):
+		RCC_register_map_base->APB1ENR = write_val;
+		break;
 	case(BDCR):
 		RCC_register_map_base->BDCR = write_val;
 		break;
 	case(CSR):
 		RCC_register_map_base->CSR = write_val;
-		break;
-	case(AHBRSTR):
-		RCC_register_map_base->AHBRSTR = write_val;
-		break;
-	case(CFGR2):
-		RCC_register_map_base->CFGR2 = write_val;
 		break;
 	default:
 		//TODO: !!invoke error handler
@@ -303,17 +284,14 @@ uint32_t Driver_Clock_Reg_Read(int rcc_register_id)
 	case(APB2ENR):
 		register_value = RCC_register_map_base->APB2ENR;
 		break;
+	case(APB1ENR):
+		register_value = RCC_register_map_base->APB1ENR;
+		break;
 	case(BDCR):
 		register_value = RCC_register_map_base->BDCR;
 		break;
 	case(CSR):
 		RCC_register_map_base->CSR;
-		break;
-	case(AHBRSTR):
-		register_value = RCC_register_map_base->AHBRSTR;
-		break;
-	case(CFGR2):
-		register_value = RCC_register_map_base->CFGR2;
 		break;
 	default:
 		//TODO: !!invoke error handler
