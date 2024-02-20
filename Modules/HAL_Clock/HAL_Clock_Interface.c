@@ -96,7 +96,7 @@ void RCC_Clock_HAL_DMA_Set(dma_channel_t channel, clock_status_t status)
 		Driver_Clock_Bit_Write(AHBENR, channel);
 		break;
 	case DISABLE:
-		Driver_Clock_Bit_Disable(AHBENR, channel);
+		Driver_Clock_Bit_Clear(AHBENR, channel);
 		break;
 	default:
 		//TODO: invoke error handler
@@ -112,7 +112,7 @@ void RCC_Clock_HAL_I2C_Set(i2c_interface_t interface_num, clock_status_t status)
 		Driver_Clock_Bit_Write(APB1ENR, interface_num);
 		break;
 	case DISABLE:
-		Driver_Clock_Bit_Disable(APB1ENR, interface_num);
+		Driver_Clock_Bit_Clear(APB1ENR, interface_num);
 		break;
 	default:
 		//TODO: invoke error handler
@@ -128,7 +128,7 @@ void RCC_Clock_HAL_ADC_Set(adc_select_t interface_num, clock_status_t status)
 		Driver_Clock_Bit_Write(APB2ENR, interface_num);
 		break;
 	case DISABLE:
-		Driver_Clock_Bit_Disable(APB2ENR, interface_num);
+		Driver_Clock_Bit_Clear(APB2ENR, interface_num);
 		break;
 	default:
 		//TODO: invoke error handler
@@ -146,7 +146,7 @@ void RCC_Clock_HAL_UART_Set(uart_select_t interface_num, clock_status_t status)
 		}
 		else if(status == DISABLE)
 		{
-			Driver_Clock_Bit_Disable(APB2ENR, interface_num);
+			Driver_Clock_Bit_Clear(APB2ENR, interface_num);
 		}
 	}
 	else if (interface_num == UART_2 || interface_num == UART_3 ||
@@ -158,7 +158,7 @@ void RCC_Clock_HAL_UART_Set(uart_select_t interface_num, clock_status_t status)
 		}
 		else if(status == DISABLE)
 		{
-			Driver_Clock_Bit_Disable(APB1ENR, interface_num);
+			Driver_Clock_Bit_Clear(APB1ENR, interface_num);
 		}
 	}
 }
