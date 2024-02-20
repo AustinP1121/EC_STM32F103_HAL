@@ -39,8 +39,8 @@
 void Driver_Clock_Bit_Write(int rcc_register_id, int bit_pos);
 void Driver_Clock_Bit_Clear(int rcc_register_id, int bit_pos);
 int Driver_Clock_Bit_Read(int rcc_register_id, int bit_pos);
-void Driver_Clock_Reg_Write(int rcc_register_id, uint32_t const write_val);
-uint32_t Driver_Clock_Reg_Read(int rcc_register_id);
+void Driver_Clock_Reg_Write(uint32_t* register_addr, uint32_t const write_val);
+uint32_t Driver_Clock_Reg_Read(uint32_t* register_addr);
 
 #endif
 

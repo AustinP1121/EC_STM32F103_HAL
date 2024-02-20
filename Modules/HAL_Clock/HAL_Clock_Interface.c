@@ -49,32 +49,35 @@ void RCC_Clock_HAL_SPI_Set(spi_interface_t interface_num, clock_status_t status)
 
 	switch(interface_num)
 	{
+	//clock enable bit located at bit 12 in APB2ENR
 	case SPI_1:
 		if(status == ENABLE)
 		{
 			Driver_Clock_Bit_Write(APB2ENR, SPI_1);
 		}
-		else
+		else if(status == DISABLE)
 		{
 			Driver_Clock_Bit_Clear(APB2ENR, SPI_1);
 		}
 		break;
+	//clock enable bit located at bit 12 in APB2ENR
 	case SPI_2:
 		if(status == ENABLE)
 		{
 			Driver_Clock_Bit_Write(APB1ENR, SPI_2);
 		}
-		else
+		else if(status == DISABLE)
 		{
 			Driver_Clock_Bit_Clear(APB1ENR, SPI_2);
 		}
 		break;
+	//clock enable bit located at bit 12 in APB2ENR
 	case SPI_3:
 		if(status == ENABLE)
 		{
 			Driver_Clock_Bit_Write(APB1ENR, SPI_3);
 		}
-		else
+		else if(status == DISABLE)
 		{
 			Driver_Clock_Bit_Clear(APB1ENR, SPI_3);
 		}
@@ -87,47 +90,138 @@ void RCC_Clock_HAL_SPI_Set(spi_interface_t interface_num, clock_status_t status)
 
 void RCC_Clock_HAL_DMA_Set(dma_channel_t channel, clock_status_t status)
 {
-
+	switch(status)
+	{
+	case ENABLE:
+		Driver_Clock_Bit_Write(AHBENR, channel);
+		break;
+	case DISABLE:
+		Driver_Clock_Bit_Clear(AHBENR, channel);
+		break;
+	default:
+		//TODO: invoke error handler
+		break;
+	}
 }
 
 void RCC_Clock_HAL_I2C_Set(i2c_interface_t interface_num, clock_status_t status)
 {
-
+	switch(status)
+	{
+	case ENABLE:
+		Driver_Clock_Bit_Write(APB1ENR, interface_num);
+		break;
+	case DISABLE:
+		Driver_Clock_Bit_Clear(APB1ENR, interface_num);
+		break;
+	default:
+		//TODO: invoke error handler
+		break;
+	}
 }
 
 void RCC_Clock_HAL_ADC_Set(adc_select_t interface_num, clock_status_t status)
 {
-
+	switch(status)
+	{
+	case ENABLE:
+		Driver_Clock_Bit_Write(APB2ENR, interface_num);
+		break;
+	case DISABLE:
+		Driver_Clock_Bit_Clear(APB2ENR, interface_num);
+		break;
+	default:
+		//TODO: invoke error handler
+		break;
+	}
 }
 
 void RCC_Clock_HAL_UART_Set(uart_select_t interface_num, clock_status_t status)
 {
-
+	if(interface_num == UART_1)
+	{
+		if(status == ENABLE)
+		{
+			Driver_Clock_Bit_Write(APB2ENR, interface_num);
+		}
+		else if(status == DISABLE)
+		{
+			Driver_Clock_Bit_Clear(APB2ENR, interface_num);
+		}
+	}
+	else if (interface_num == UART_2 || interface_num == UART_3 ||
+				interface_num == UART_4 || interface_num == UART_5)
+	{
+		if(status == ENABLE)
+		{
+			Driver_Clock_Bit_Write(APB1ENR, interface_num);
+		}
+		else if(status == DISABLE)
+		{
+			Driver_Clock_Bit_Clear(APB1ENR, interface_num);
+		}
+	}
 }
 
 void RCC_Clock_HAL_AFIOEN_Set()
 {
-
+	Driver_Clock_Bit_Write(APB2ENR, 0);
 }
 
 void RCC_Clock_HAL_GPIO_Set(port_number_t port_num, clock_status_t status)
 {
-
+	switch(status)
+	{
+	case ENABLE:
+		Driver_Clock_Bit_Write(APB2ENR, port_num);
+		break;
+	case DISABLE:
+		Driver_Clock_Bit_Clear(APB2ENR, port_num);
+		break;
+	default:
+		break;
+	}
 }
 
 void RCC_Clock_HAL_Timer_Set(timer_select_t timer_num, clock_status_t status)
 {
-
+	if(timer_num == TIM_1)
+	{
+		if(status == ENABLE)
+		{
+			Driver_Clock_Bit_Write(APB2ENR, timer_num);
+		}
+		else if(status == DISABLE)
+		{
+			Driver_Clock_Bit_Clear(APB2ENR, timer_num);
+		}
+	}
+	else if(timer_num == TIM_2 || timer_num == TIM_3 || timer_num == TIM_4 ||
+			timer_num == TIM_5 || timer_num == TIM_6 || timer_num == TIM_7)
+	{
+		if(status == ENABLE)
+		{
+			Driver_Clock_Bit_Write(APB1ENR, timer_num);
+		}
+		else if(status == DISABLE)
+		{
+			Driver_Clock_Bit_Clear(APB1ENR, timer_num);
+		}
+	}
 }
 
 void RCC_Clock_HAL_Write_Reg(uint32_t *register_address, uint32_t write_value)
 {
-
+	Driver_Clock_Reg_Write(register_address, write_value);
 }
 
 uint32_t RCC_Clock_HAL_Read_Reg(uint32_t *register_address)
 {
-	return 0;
+	uint32_t reg_value;
+
+	reg_value = Driver_Clock_Reg_Read(register_address);
+
+	return reg_value;
 }
 
 /*************** END OF FUNCTIONS ***************************************************************************/

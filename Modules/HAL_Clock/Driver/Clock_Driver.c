@@ -223,85 +223,14 @@ int Driver_Clock_Bit_Read(int rcc_register_id, int bit_pos)
 	return bit_val;
 }
 
-void Driver_Clock_Reg_Write(int rcc_register_id, uint32_t const write_val)
+void Driver_Clock_Reg_Write(uint32_t* register_addr, uint32_t const write_val)
 {
-	switch(rcc_register_id)
-	{
-	case(CR):
-		RCC_register_map_base->CR = write_val;
-		break;
-	case(CFGR):
-		RCC_register_map_base->CFGR = write_val;
-		break;
-	case(CIR):
-		RCC_register_map_base->CIR = write_val;
-		break;
-	case(APB2RSTR):
-		RCC_register_map_base->APB2RSTR = write_val;
-		break;
-	case(AHBENR):
-		RCC_register_map_base->AHBENR = write_val;
-		break;
-	case(APB2ENR):
-		RCC_register_map_base->APB2ENR = write_val;
-		break;
-	case(APB1ENR):
-		RCC_register_map_base->APB1ENR = write_val;
-		break;
-	case(BDCR):
-		RCC_register_map_base->BDCR = write_val;
-		break;
-	case(CSR):
-		RCC_register_map_base->CSR = write_val;
-		break;
-	default:
-		//TODO: !!invoke error handler
-		break;
-	}
+	*register_addr = write_val;
 }
 
-uint32_t Driver_Clock_Reg_Read(int rcc_register_id)
+uint32_t Driver_Clock_Reg_Read(uint32_t* register_addr)
 {
-	uint32_t register_value;
-
-	switch(rcc_register_id)
-	{
-	case(CR):
-		register_value = RCC_register_map_base->CR;
-		break;
-	case(CFGR):
-		register_value = RCC_register_map_base->CFGR;
-		break;
-	case(CIR):
-		register_value = RCC_register_map_base->CIR;
-		break;
-	case(APB2RSTR):
-		register_value = RCC_register_map_base->APB2RSTR;
-		break;
-	case(AHBENR):
-		register_value = RCC_register_map_base->AHBENR;
-		break;
-	case(APB2ENR):
-		register_value = RCC_register_map_base->APB2ENR;
-		break;
-	case(APB1ENR):
-		register_value = RCC_register_map_base->APB1ENR;
-		break;
-	case(BDCR):
-		register_value = RCC_register_map_base->BDCR;
-		break;
-	case(CSR):
-		RCC_register_map_base->CSR;
-		break;
-	default:
-		//TODO: !!invoke error handler
-		break;
-	}
-
-	return register_value;
+	return *register_addr;
 }
-
-
-
 
 /*************** END OF FUNCTIONS ***************************************************************************/
