@@ -83,6 +83,7 @@
  * <A NAME="API"></A>
  *
  * @section HAL HAL
+ *
  * Hardware Abstraction Layer (HAL) functions for each peripheral
  *
  * @subsection Clock Clock
@@ -145,7 +146,6 @@
  * Since copies of the guidelines are barred behind a significantly priced
  * paywall, it is recommended that one wishing to read them purchase it.
  *
- * @subsection
  *
  * <br><A HREF="#Contents">Table of Contents</A><br>
  * <hr>
@@ -199,3 +199,5 @@
  * <br><A HREF="#Contents">Table of Contents</A><br>
  * <hr>
  */
+
+#include <stdint.h>
