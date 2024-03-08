@@ -48,7 +48,7 @@ typedef enum dma_channel
 {
 	DMA_1,
 	DMA_2
-} dma_channel_t;
+} dma_controller_t;
 
 typedef enum i2c_interface
 {
@@ -148,10 +148,10 @@ void RCC_Clock_HAL_SPI(spi_interface_t interface_num, clock_status_t status);
 /**
  * Sets the clock for the selected DMA channel.
  * @param interface_num: chooses one of the DMA channels,
- *	@see dma_channel_t
+ *	@see dma_controller_t
  * @param status: disable (0) or enable (1)
  */
-void RCC_Clock_HAL_DMA_Set(dma_channel_t channel, clock_status_t status);
+void RCC_Clock_HAL_DMA_Set(dma_controller_t channel, clock_status_t status);
 
 /**
  * Sets the clock for the selected I2C interface.

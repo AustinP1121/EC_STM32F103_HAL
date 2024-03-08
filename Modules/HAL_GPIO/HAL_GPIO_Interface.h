@@ -1,6 +1,6 @@
 /*****************************************************************************
-* Title                 :   HAL Clock Interface
-* Filename              :   HAL_Clock_Interface.h
+* Title                 :   HAL GPIO Interface
+* Filename              :   HAL_GPIO_Interface.h
 * Author                :   Austin Pedigo
 * Origin Date           :   2024-01-25
 * Version               :   dev1.1.1
@@ -34,6 +34,7 @@
  *****************************************************************************/
 typedef enum
 {
+	PIN_0, //0b 0000 0000 0000 0000 0000 0000 0000 0111
 	PIN_1,
 	PIN_2,
 	PIN_3,
@@ -53,7 +54,7 @@ typedef enum
 
 typedef enum
 {
-    BIT_0 = 0,
+    BIT_0 = 1,
     BIT_1,
     BIT_2,
     BIT_3,
@@ -89,34 +90,35 @@ typedef enum
 
 typedef enum
 {
-	SLOWEST, //max speed 2MHz
-	MEDIAN, //max speed 10MHz
-	FASTEST //max speed 50MHz
-} GPIO_pin_slew_t;
-
-typedef enum
-{
-	INPUT_FLOAT,
-	INPUT_PULL_UP,
-	INPUT_PULL_DOWN,
-	ANALOG,
-	OUTPUT_OPEN_DRAIN,
-	OUTPUT_PUSH_PULL,
-	ALT_FNCN_PUSH_PULL,
-	ALT_FNCN_OPEN_DRAIN
-} GPIO_pin_mode_t;
-
-typedef enum
-{
 	LOW,
 	HIGH
 } GPIO_pin_state_t;
 
+typedef enum
+{
+	ONLY_INPUT = 0b0000UL, //(LOW | LOW),
+	SLOWEST = 0b0010UL, //(LOW | HIGH), //max speed 2MHz
+	MEDIAN = 0b0001UL, //(HIGH | LOW), //max speed 10MHz
+	FASTEST = 0b0011UL //(HIGH | HIGH) //max speed 50MHz
+} GPIO_pin_slew_t;
+
+typedef enum
+{
+	INPUT_FLOAT = 0b0100UL, //(LOW | HIGH),
+	INPUT_PULL_DOWN_UP = 0b1000UL, //(HIGH | LOW),
+	ANALOG = 0b0000, //(LOW | LOW),
+	OUTPUT_OPEN_DRAIN = 0b0100UL, //(LOW | HIGH),
+	OUTPUT_PUSH_PULL = 0b1000UL, //(HIGH | LOW),
+	ALT_FNCN_PUSH_PULL = 0b1000UL, //(HIGH | LOW),
+	ALT_FNCN_OPEN_DRAIN = 0b1100UL //(HIGH | HIGH)
+} GPIO_pin_mode_t;
+
 typedef struct
 {
+	port_num_t port;
 	GPIO_pin_num_t pin;
-	GPIO_pin_mode_t mode;
 	GPIO_pin_slew_t slew_rate;
+	GPIO_pin_mode_t mode;
 	GPIO_pin_state_t init_state;
 } GPIO_pin_init_t;
 
@@ -125,9 +127,8 @@ typedef struct
  *****************************************************************************/
 void HAL_GPIO_Pin_Init(GPIO_pin_init_t * config);
 void HAL_GPIO_Pin_Mode(port_num_t port, GPIO_pin_num_t pin, GPIO_pin_mode_t pin_mode);
-GPIO_pin_state_t HAL_GPIO_Pin_Status(port_num_t port, GPIO_pin_num_t pin);
+GPIO_pin_state_t HAL_GPIO_Pin_Read(port_num_t port, GPIO_pin_num_t pin);
 void HAL_GPIO_Pin_Write(port_num_t port, GPIO_pin_num_t pin, GPIO_pin_state_t value);
-void HAL_GPIO_Pin_Toggle(port_num_t port, GPIO_pin_num_t pin);
 
 #endif
 
