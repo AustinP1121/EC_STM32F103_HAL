@@ -23,6 +23,7 @@
 /*****************************************************************************
  * INCLUDES
  *****************************************************************************/
+#include "../../EC_PSD_STM32F103_HAL.c"
 
 /*****************************************************************************
  * PREPROCESSOR CONSTANTS
@@ -53,8 +54,12 @@ typedef struct
 /*****************************************************************************
  * FUNCTION PROTOTYPES
  *****************************************************************************/
-SPI_HAL_Config_Interface_DMA(spi_config* config);
-SPI_HAL_Config_Interface_
+void SPI_HAL_Config_Interface_DMA(spi_config* config);
+void SPI_HAL_Config_Interface_Std(spi_config* config);
+uint16_t SPI_HAL_Interface_Slave_Read();
+void SPI_HAL_Interface_Slave_Write();
+void SPI_HAL_Interface_Master_Write();
+
 #endif
 
 /***END OF FILE***************************************************************/

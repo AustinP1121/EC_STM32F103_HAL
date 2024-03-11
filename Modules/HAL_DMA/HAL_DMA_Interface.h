@@ -114,10 +114,12 @@ typedef struct {
 /******************************************************************************
 * Function Prototypes
 *******************************************************************************/
-void DMA_HAL_Config_Channel(const dma_config_t * config);
+void DMA_HAL_Config_Channel(dma_config_t * config);
 void DMA_HAL_Disable_Channel(dma_channel_t channel_num);
 void DMA_HAL_Write_Reg(uint32_t * reg_addr, const uint32_t value);
 uint32_t DMA_HAL_Read_Reg(const uint32_t * reg_addr);
+
+void DMA_Write_Channel(DMA_Channel_X_Map_Ptr dma_ptr_map, dma_config_t * config);
 
 #endif
 

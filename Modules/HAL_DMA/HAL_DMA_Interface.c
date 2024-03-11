@@ -56,283 +56,30 @@ DMA_Channel_X_Map_Ptr DMA_Channel_7_Map =
 /******************************************************************************
 * Function Definitions
 *******************************************************************************/
-void DMA_HAL_Config_Channel(const dma_config_t * config)
+void DMA_HAL_Config_Channel(dma_config_t * config)
 {
 	switch(config->channel)
 	{
 	case channel_1:
-		//disable the dma channel
-		DMA_Channel_1_Map->CCRx &= ~(1UL << 0);
-
-		//set the peripheral address
-		DMA_Channel_1_Map->CPARx = config->peripheral_addr;
-
-		//set the second point's memory address
-		DMA_Channel_1_Map->CMARx = config->second_source_addr;
-
-		//configure the number of data to be transmitted
-		DMA_Channel_1_Map->CNDTRx = config->data_count;
-
-		//set the channel priority level
-		DMA_Channel_1_Map->CCRx |= (config->channel_priority << 12);
-
-		//set data direction, send or receive
-		DMA_Channel_1_Map->CCRx |= (config->data_direction << 4);
-
-		//set data acquisition mode
-		if(config->data_acq_mode == circular_mode)
-		{
-			DMA_Channel_1_Map->CCRx |= (1UL << 5);
-		}
-		else if(config->data_acq_mode == mem_mem_mode)
-		{
-			DMA_Channel_1_Map->CCRx |= (1UL << 14);
-		}
-
-		//set the peripheral memory size
-		DMA_Channel_1_Map->CCRx |= (config->periph_mem_size << 8);
-
-		//set the second memory size
-		DMA_Channel_1_Map->CCRx |= (config->memory_mem_size << 10);
-
-		//enable the channel
-		DMA_Channel_1_Map->CCRx |= (1UL << 0);
-
+		DMA_Write_Channel(DMA_Channel_1_Map, config);
 		break;
-
 	case channel_2:
-		//disable the dma channel
-		DMA_Channel_2_Map->CCRx &= ~(1UL << 0);
-
-		//set the peripheral address
-		DMA_Channel_2_Map->CPARx = config->peripheral_addr;
-
-		//set the second point's memory address
-		DMA_Channel_2_Map->CMARx = config->second_source_addr;
-
-		//configure the number of data to be transmitted
-		DMA_Channel_2_Map->CNDTRx = config->data_count;
-
-		//set the channel priority level
-		DMA_Channel_2_Map->CCRx |= (config->channel_priority << 12);
-
-		//set data direction, send or receive
-		DMA_Channel_2_Map->CCRx |= (config->data_direction << 4);
-
-		//set data acquisition mode
-		if(config->data_acq_mode == circular_mode)
-		{
-			DMA_Channel_2_Map->CCRx |= (1UL << 5);
-		}
-		else if(config->data_acq_mode == mem_mem_mode)
-		{
-			DMA_Channel_2_Map->CCRx |= (1UL << 14);
-		}
-
-		//set the peripheral memory size
-		DMA_Channel_2_Map->CCRx |= (config->periph_mem_size << 8);
-
-		//set the second memory size
-		DMA_Channel_2_Map->CCRx |= (config->memory_mem_size << 10);
-
-		//enable the channel
-		DMA_Channel_2_Map->CCRx |= (1UL << 0);
-
+		DMA_Write_Channel(DMA_Channel_2_Map, config);
 		break;
 	case channel_3:
-		//disable the dma channel
-		DMA_Channel_3_Map->CCRx &= ~(1UL << 0);
-
-		//set the peripheral address
-		DMA_Channel_3_Map->CPARx = config->peripheral_addr;
-
-		//set the second point's memory address
-		DMA_Channel_3_Map->CMARx = config->second_source_addr;
-
-		//configure the number of data to be transmitted
-		DMA_Channel_3_Map->CNDTRx = config->data_count;
-
-		//set the channel priority level
-		DMA_Channel_3_Map->CCRx |= (config->channel_priority << 12);
-
-		//set data direction, send or receive
-		DMA_Channel_3_Map->CCRx |= (config->data_direction << 4);
-
-		//set data acquisition mode
-		if(config->data_acq_mode == circular_mode)
-		{
-			DMA_Channel_3_Map->CCRx |= (1UL << 5);
-		}
-		else if(config->data_acq_mode == mem_mem_mode)
-		{
-			DMA_Channel_3_Map->CCRx |= (1UL << 14);
-		}
-
-		//set the peripheral memory size
-		DMA_Channel_3_Map->CCRx |= (config->periph_mem_size << 8);
-
-		//set the second memory size
-		DMA_Channel_3_Map->CCRx |= (config->memory_mem_size << 10);
-
-		//enable the channel
-		DMA_Channel_3_Map->CCRx |= (1UL << 0);
-
+		DMA_Write_Channel(DMA_Channel_3_Map, config);
 		break;
 	case channel_4:
-		//disable the dma channel
-		DMA_Channel_4_Map->CCRx &= ~(1UL << 0);
-
-		//set the peripheral address
-		DMA_Channel_4_Map->CPARx = config->peripheral_addr;
-
-		//set the second point's memory address
-		DMA_Channel_4_Map->CMARx = config->second_source_addr;
-
-		//configure the number of data to be transmitted
-		DMA_Channel_4_Map->CNDTRx = config->data_count;
-
-		//set the channel priority level
-		DMA_Channel_4_Map->CCRx |= (config->channel_priority << 12);
-
-		//set data direction, send or receive
-		DMA_Channel_4_Map->CCRx |= (config->data_direction << 4);
-
-		//set data acquisition mode
-		if(config->data_acq_mode == circular_mode)
-		{
-			DMA_Channel_4_Map->CCRx |= (1UL << 5);
-		}
-		else if(config->data_acq_mode == mem_mem_mode)
-		{
-			DMA_Channel_4_Map->CCRx |= (1UL << 14);
-		}
-
-		//set the peripheral memory size
-		DMA_Channel_4_Map->CCRx |= (config->periph_mem_size << 8);
-
-		//set the second memory size
-		DMA_Channel_4_Map->CCRx |= (config->memory_mem_size << 10);
-
-		//enable the channel
-		DMA_Channel_4_Map->CCRx |= (1UL << 0);
-
+		DMA_Write_Channel(DMA_Channel_4_Map, config);
 		break;
 	case channel_5:
-		//disable the dma channel
-		DMA_Channel_5_Map->CCRx &= ~(1UL << 0);
-
-		//set the peripheral address
-		DMA_Channel_5_Map->CPARx = config->peripheral_addr;
-
-		//set the second point's memory address
-		DMA_Channel_5_Map->CMARx = config->second_source_addr;
-
-		//configure the number of data to be transmitted
-		DMA_Channel_5_Map->CNDTRx = config->data_count;
-
-		//set the channel priority level
-		DMA_Channel_5_Map->CCRx |= (config->channel_priority << 12);
-
-		//set data direction, send or receive
-		DMA_Channel_5_Map->CCRx |= (config->data_direction << 4);
-
-		//set data acquisition mode
-		if(config->data_acq_mode == circular_mode)
-		{
-			DMA_Channel_5_Map->CCRx |= (1UL << 5);
-		}
-		else if(config->data_acq_mode == mem_mem_mode)
-		{
-			DMA_Channel_5_Map->CCRx |= (1UL << 14);
-		}
-
-		//set the peripheral memory size
-		DMA_Channel_5_Map->CCRx |= (config->periph_mem_size << 8);
-
-		//set the second memory size
-		DMA_Channel_5_Map->CCRx |= (config->memory_mem_size << 10);
-
-		//enable the channel
-		DMA_Channel_5_Map->CCRx |= (1UL << 0);
-
+		DMA_Write_Channel(DMA_Channel_5_Map, config);
 		break;
 	case channel_6:
-		//disable the dma channel
-		DMA_Channel_6_Map->CCRx &= ~(1UL << 0);
-
-		//set the peripheral address
-		DMA_Channel_6_Map->CPARx = config->peripheral_addr;
-
-		//set the second point's memory address
-		DMA_Channel_6_Map->CMARx = config->second_source_addr;
-
-		//configure the number of data to be transmitted
-		DMA_Channel_6_Map->CNDTRx = config->data_count;
-
-		//set the channel priority level
-		DMA_Channel_6_Map->CCRx |= (config->channel_priority << 12);
-
-		//set data direction, send or receive
-		DMA_Channel_6_Map->CCRx |= (config->data_direction << 4);
-
-		//set data acquisition mode
-		if(config->data_acq_mode == circular_mode)
-		{
-			DMA_Channel_6_Map->CCRx |= (1UL << 5);
-		}
-		else if(config->data_acq_mode == mem_mem_mode)
-		{
-			DMA_Channel_6_Map->CCRx |= (1UL << 14);
-		}
-
-		//set the peripheral memory size
-		DMA_Channel_6_Map->CCRx |= (config->periph_mem_size << 8);
-
-		//set the second memory size
-		DMA_Channel_6_Map->CCRx |= (config->memory_mem_size << 10);
-
-		//enable the channel
-		DMA_Channel_6_Map->CCRx |= (1UL << 0);
-
+		DMA_Write_Channel(DMA_Channel_6_Map, config);
 		break;
 	case channel_7:
-		//disable the dma channel
-		DMA_Channel_7_Map->CCRx &= ~(1UL << 0);
-
-		//set the peripheral address
-		DMA_Channel_7_Map->CPARx = config->peripheral_addr;
-
-		//set the second point's memory address
-		DMA_Channel_7_Map->CMARx = config->second_source_addr;
-
-		//configure the number of data to be transmitted
-		DMA_Channel_7_Map->CNDTRx = config->data_count;
-
-		//set the channel priority level
-		DMA_Channel_7_Map->CCRx |= (config->channel_priority << 12);
-
-		//set data direction, send or receive
-		DMA_Channel_7_Map->CCRx |= (config->data_direction << 4);
-
-		//set data acquisition mode
-		if(config->data_acq_mode == circular_mode)
-		{
-			DMA_Channel_7_Map->CCRx |= (1UL << 5);
-		}
-		else if(config->data_acq_mode == mem_mem_mode)
-		{
-			DMA_Channel_7_Map->CCRx |= (1UL << 14);
-		}
-
-		//set the peripheral memory size
-		DMA_Channel_7_Map->CCRx |= (config->periph_mem_size << 8);
-
-		//set the second memory size
-		DMA_Channel_7_Map->CCRx |= (config->memory_mem_size << 10);
-
-		//enable the channel
-		DMA_Channel_7_Map->CCRx |= (1UL << 0);
-
+		DMA_Write_Channel(DMA_Channel_7_Map, config);
 		break;
 	default:
 		break;
@@ -385,6 +132,46 @@ uint32_t DMA_HAL_Read_Reg(const uint32_t * reg_addr)
 	reg_value = *reg_addr;
 
 	return reg_value;
+}
+
+void DMA_Write_Channel(DMA_Channel_X_Map_Ptr dma_ptr_map, dma_config_t * config)
+{
+	//disable the dma channel
+	dma_ptr_map->CCRx &= ~(1UL << 0);
+
+	//set the peripheral address
+	dma_ptr_map->CPARx = config->peripheral_addr;
+
+	//set the second point's memory address
+	dma_ptr_map->CMARx = config->second_source_addr;
+
+	//configure the number of data to be transmitted
+	dma_ptr_map->CNDTRx = config->data_count;
+
+	//set the channel priority level
+	dma_ptr_map->CCRx |= (config->channel_priority << 12);
+
+	//set data direction, send or receive
+	dma_ptr_map->CCRx |= (config->data_direction << 4);
+
+	//set data acquisition mode
+	if(config->data_acq_mode == circular_mode)
+	{
+		dma_ptr_map->CCRx |= (1UL << 5);
+	}
+	else if(config->data_acq_mode == mem_mem_mode)
+	{
+		dma_ptr_map->CCRx |= (1UL << 14);
+	}
+
+	//set the peripheral memory size
+	dma_ptr_map->CCRx |= (config->periph_mem_size << 8);
+
+	//set the second memory size
+	dma_ptr_map->CCRx |= (config->memory_mem_size << 10);
+
+	//enable the channel
+	dma_ptr_map->CCRx |= (1UL << 0);
 }
 
 
