@@ -88,7 +88,7 @@ void RCC_Clock_HAL_SPI_Set(spi_interface_t interface_num, clock_status_t status)
 	}
 }
 
-void RCC_Clock_HAL_DMA_Set(dma_channel_t channel, clock_status_t status)
+void RCC_Clock_HAL_DMA_Set(dma_controller_t channel, clock_status_t status)
 {
 	switch(status)
 	{

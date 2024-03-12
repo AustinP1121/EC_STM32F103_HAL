@@ -36,7 +36,7 @@
 /******************************************************************************
 * Module Variable Definitions
 *******************************************************************************/
-RCC_Register_Map_Ptr RCC_register_map_base = ((RCC_Register_Map_Ptr) 0x40021400UL);
+RCC_Register_Map_Ptr RCC_register_map_base = ((RCC_Register_Map_Ptr) 0x40021000UL);
 
 /******************************************************************************
 * Function Prototypes

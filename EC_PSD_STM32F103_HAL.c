@@ -201,3 +201,8 @@
  */
 
 #include <stdint.h>
+#include "Modules/HAL_Clock/HAL_Clock_Interface.h"
+#include "Modules/HAL_GPIO/HAL_GPIO_Interface.h"
+#include "Modules/HAL_DMA/HAL_DMA_Interface.h"
+#include "Modules/HAL_SPI/HAL_SPI_Interface.h"
+

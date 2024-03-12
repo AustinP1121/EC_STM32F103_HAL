@@ -132,30 +132,61 @@ void Driver_GPIO_Write_Pin_Output(port_num_t port, uint32_t value)
 	switch(port)
 	{
 	case IO_PORT_A:
-		port_a_map_ptr->ODR = value;
+		port_a_map_ptr->ODR |= value;
 		break;
 	case IO_PORT_B:
-		port_b_map_ptr->ODR = value;
+		port_b_map_ptr->ODR |= value;
 		break;
 	case IO_PORT_C:
-		port_c_map_ptr->ODR = value;
+		port_c_map_ptr->ODR |= value;
 		break;
 	case IO_PORT_D:
-		port_d_map_ptr->ODR = value;
+		port_d_map_ptr->ODR |= value;
 		break;
 	case IO_PORT_E:
-		port_e_map_ptr->ODR = value;
+		port_e_map_ptr->ODR |= value;
 		break;
 	case IO_PORT_F:
-		port_f_map_ptr->ODR = value;
+		port_f_map_ptr->ODR |= value;
 		break;
 	case IO_PORT_G:
-		port_g_map_ptr->ODR = value;
+		port_g_map_ptr->ODR |= value;
 		break;
 	default:
 		break;
 	}
 }
+
+void Driver_GPIO_Clear_Pin_Output(port_num_t port, uint32_t value)
+{
+	switch(port)
+	{
+	case IO_PORT_A:
+		port_a_map_ptr->ODR &= ~(1UL << value);
+		break;
+	case IO_PORT_B:
+		port_b_map_ptr->ODR &= ~(1UL << value);
+		break;
+	case IO_PORT_C:
+		port_c_map_ptr->ODR &= ~(1UL << value);
+		break;
+	case IO_PORT_D:
+		port_d_map_ptr->ODR &= ~(1UL << value);
+		break;
+	case IO_PORT_E:
+		port_e_map_ptr->ODR &= ~(1UL << value);
+		break;
+	case IO_PORT_F:
+		port_f_map_ptr->ODR &= ~(1UL << value);
+		break;
+	case IO_PORT_G:
+		port_g_map_ptr->ODR &= ~(1UL << value);
+		break;
+	default:
+		break;
+	}
+}
+
 
 uint32_t Driver_GPIO_Read_Input(port_num_t port)
 {

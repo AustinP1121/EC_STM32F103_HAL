@@ -40,6 +40,8 @@
 void Driver_GPIO_Write_Pin_State(port_num_t port, GPIO_reg_id_t reg_id, uint32_t value);
 //writes to and returns the output data reg
 void Driver_GPIO_Write_Pin_Output(port_num_t port, uint32_t value);
+//clears the output data reg
+void Driver_GPIO_Clear_Pin_Output(port_num_t port, uint32_t value);
 //grabs input data reg
 uint32_t Driver_GPIO_Read_Input(port_num_t port);
 
