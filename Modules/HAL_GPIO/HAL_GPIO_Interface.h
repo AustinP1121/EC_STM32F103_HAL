@@ -106,11 +106,11 @@ typedef enum
 {
 	INPUT_FLOAT = 0b0100UL, //(LOW | HIGH),
 	INPUT_PULL_DOWN_UP = 0b1000UL, //(HIGH | LOW),
-	ANALOG = 0b0000, //(LOW | LOW),
-	OUTPUT_OPEN_DRAIN = 0b0100UL, //(LOW | HIGH),
-	OUTPUT_PUSH_PULL = 0b1000UL, //(HIGH | LOW),
-	ALT_FNCN_PUSH_PULL = 0b1000UL, //(HIGH | LOW),
-	ALT_FNCN_OPEN_DRAIN = 0b1100UL //(HIGH | HIGH)
+	ANALOG = 0b0010, //(LOW | LOW),
+	OUTPUT_OPEN_DRAIN = 0b0110UL, //(LOW | HIGH),
+	OUTPUT_PUSH_PULL = 0b1010UL, //(HIGH | LOW),
+	ALT_FNCN_PUSH_PULL = 0b1010UL, //(HIGH | LOW),
+	ALT_FNCN_OPEN_DRAIN = 0b1110UL //(HIGH | HIGH)
 } GPIO_pin_mode_t;
 
 typedef struct
@@ -129,6 +129,7 @@ void HAL_GPIO_Pin_Init(GPIO_pin_init_t * config);
 void HAL_GPIO_Pin_Mode(port_num_t port, GPIO_pin_num_t pin, GPIO_pin_mode_t pin_mode);
 GPIO_pin_state_t HAL_GPIO_Pin_Read(port_num_t port, GPIO_pin_num_t pin);
 void HAL_GPIO_Pin_Write(port_num_t port, GPIO_pin_num_t pin, GPIO_pin_state_t value);
+
 
 #endif
 

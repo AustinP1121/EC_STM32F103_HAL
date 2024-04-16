@@ -143,7 +143,7 @@ typedef enum port_number
  * 	@see spi_interface_t
  * @param status: disable (0) or enable (1)
  */
-void RCC_Clock_HAL_SPI(spi_interface_t interface_num, clock_status_t status);
+void RCC_Clock_HAL_SPI_Set(spi_interface_t interface_num, clock_status_t status);
 
 /**
  * Sets the clock for the selected DMA channel.

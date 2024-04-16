@@ -44,9 +44,9 @@
 *******************************************************************************/
 void HAL_GPIO_Pin_Init(GPIO_pin_init_t * config)
 {
-	uint32_t pin_config = 0UL;
+	volatile uint32_t pin_config = 0UL;
 
-	uint32_t pin_state = 0UL;
+	volatile uint32_t pin_state = 0UL;
 
 	//works
 	pin_config = (config->slew_rate | config->mode);
@@ -56,12 +56,12 @@ void HAL_GPIO_Pin_Init(GPIO_pin_init_t * config)
 	{
 		pin_config = (pin_config << (config->pin*4));
 
-		Driver_GPIO_Write_Pin_State(config->port, CRL, pin_config);
+		Driver_GPIO_Write_Pin_Cnf(config->port, CRL, pin_config, config->pin);
 	}
 	else if(config->pin > 7)
 	{
 		pin_config = (pin_config << ((config->pin-8)*4));
-		Driver_GPIO_Write_Pin_State(config->port, CRH, pin_config);
+		Driver_GPIO_Write_Pin_Cnf(config->port, CRH, pin_config, config->pin-8);
 	}
 
 	if(config->init_state == HIGH)

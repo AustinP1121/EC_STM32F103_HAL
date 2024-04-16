@@ -55,6 +55,7 @@ typedef struct
 	uint32_t CPARx;
 	uint32_t CMARx;
 } volatile * const DMA_Channel_X_Map_Ptr;
+
 typedef enum
 {
 	low = 0b00,

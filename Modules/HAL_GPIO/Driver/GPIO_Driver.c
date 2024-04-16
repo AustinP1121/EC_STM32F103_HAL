@@ -48,78 +48,99 @@ GPIOx_Register_Map_Ptr port_g_map_ptr = ((GPIOx_Register_Map_Ptr)0x40012000UL);
 /******************************************************************************
 * Function Prototypes
 *******************************************************************************/
-void Driver_GPIO_Write_Pin_State(port_num_t port, GPIO_reg_id_t reg_id, uint32_t value)
+void Driver_GPIO_Write_Pin_Cnf(port_num_t port,
+		GPIO_reg_id_t reg_id,
+		uint32_t value,
+		uint32_t pin)
 {
 	switch(port)
 	{
 	case IO_PORT_A:
 		if(reg_id == CRL)
 		{
-			port_a_map_ptr->CRL = value;
+			port_a_map_ptr->CRL &= ~(0xFUL << (pin*4));
+			port_a_map_ptr->CRL |= value;
 		}
 		else if(reg_id == CRH)
 		{
-			port_a_map_ptr->CRH = value;
+			port_a_map_ptr->CRL &= ~(0xFUL << (pin*4));
+			port_a_map_ptr->CRH |= value;
 		}
 		break;
 	case IO_PORT_B:
 		if(reg_id == CRL)
 		{
-			port_b_map_ptr->CRL = value;
+			//reset values for the pin
+			port_b_map_ptr->CRL &= ~(0xFUL << (pin*4));
+			port_b_map_ptr->CRL |= value;
 		}
 		else if(reg_id == CRH)
 		{
-			port_b_map_ptr->CRH = value;
+			//reset the value
+			port_b_map_ptr->CRH &= ~(value);
+			port_b_map_ptr->CRH |= value;
 		}
 		break;
 	case IO_PORT_C:
 		if(reg_id == CRL)
 		{
-			port_c_map_ptr->CRL = value;
+			port_c_map_ptr->CRL &= ~(0xFUL << (pin*4));
+			port_c_map_ptr->CRL |= value;
 		}
 		else if(reg_id == CRH)
 		{
-			port_c_map_ptr->CRH = value;
+			port_c_map_ptr->CRL &= ~(0xFUL << (pin*4));
+			port_c_map_ptr->CRH |= value;
 		}
 		break;
 	case IO_PORT_D:
 		if(reg_id == CRL)
 		{
-			port_d_map_ptr->CRL = value;
+			port_d_map_ptr->CRL &= ~(0xFUL << (pin*4));
+			port_d_map_ptr->CRL |= value;
 		}
 		else if(reg_id == CRH)
 		{
-			port_d_map_ptr->CRH = value;
+			port_d_map_ptr->CRL &= ~(0xFUL << (pin*4));
+			port_d_map_ptr->CRH |= value;
 		}
 		break;
 	case IO_PORT_E:
 		if(reg_id == CRL)
 		{
-			port_e_map_ptr->CRL = value;
+			port_e_map_ptr->CRL &= ~(0xFUL << (pin*4));
+			port_e_map_ptr->CRL |= value;
 		}
 		else if(reg_id == CRH)
 		{
-			port_e_map_ptr->CRH = value;
+			port_e_map_ptr->CRL &= ~(0xFUL << (pin*4));
+			port_e_map_ptr->CRH |= value;
 		}
 		break;
 	case IO_PORT_F:
 		if(reg_id == CRL)
 		{
-			port_f_map_ptr->CRL = value;
+			port_f_map_ptr->CRL &= ~(0xFUL << (pin*4));
+			port_f_map_ptr->CRL |= value;
 		}
 		else if(reg_id == CRH)
 		{
-			port_f_map_ptr->CRH = value;
+			port_f_map_ptr->CRL &= ~(0xFUL << (pin*4));
+			port_f_map_ptr->CRH |= value;
 		}
 		break;
 	case IO_PORT_G:
 		if(reg_id == CRL)
 		{
-			port_g_map_ptr->CRL = value;
+			//reset the value for the pin
+			port_g_map_ptr->CRL &= ~(0xFUL << (pin*4));
+			port_g_map_ptr->CRL |= value;
 		}
 		else if(reg_id == CRH)
 		{
-			port_g_map_ptr->CRH = value;
+			//reset the value for the pin
+			port_g_map_ptr->CRL &= ~(0xFUL << (pin*4));
+			port_g_map_ptr->CRH |= value;
 		}
 		break;
 	default:

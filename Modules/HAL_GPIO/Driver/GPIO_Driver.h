@@ -36,8 +36,11 @@
 /*****************************************************************************
  * FUNCTION PROTOTYPES
  *****************************************************************************/
-//writes the pin state
-void Driver_GPIO_Write_Pin_State(port_num_t port, GPIO_reg_id_t reg_id, uint32_t value);
+//writes the pin configuration
+void Driver_GPIO_Write_Pin_Cnf(port_num_t port,
+		GPIO_reg_id_t reg_id,
+		uint32_t value,
+		uint32_t pin);
 //writes to and returns the output data reg
 void Driver_GPIO_Write_Pin_Output(port_num_t port, uint32_t value);
 //clears the output data reg

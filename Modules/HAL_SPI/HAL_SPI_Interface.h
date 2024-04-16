@@ -23,6 +23,7 @@
 /*****************************************************************************
  * INCLUDES
  *****************************************************************************/
+#include "../../Modules/HAL_GPIO/HAL_GPIO_Interface.h"
 #include "../../EC_PSD_STM32F103_HAL.c"
 
 /*****************************************************************************
@@ -35,15 +36,32 @@
 typedef struct
 {
 	uint16_t CR1;
+	uint16_t __reserved_1;
 	uint16_t CR2;
+	uint16_t __reserved_2;
 	uint16_t SR;
+	uint16_t __reserved_3;
 	uint16_t DR;
+	uint16_t __reserved_4;
 	uint16_t CRCPR;
+	uint16_t __reserved_5;
 	uint16_t RXCRCR;
+	uint16_t __reserved_6;
 	uint16_t TXCRCR;
+	uint16_t __reserved_7;
 	uint16_t I2SCFGR;
+	uint16_t __reserved_8;
 	uint16_t I2SPR;
+	uint16_t __reserved_9;
 } volatile * const SPI_Interface_Map_Ptr;
+
+typedef struct
+{
+	uint32_t EVCR;
+	uint32_t MAPR;
+	uint32_t EXTICR[4];
+	uint32_t MAPR2;
+} volatile * const AFIO_Map_Ptr;
 
 typedef enum
 {
@@ -112,6 +130,10 @@ typedef struct
 	config_selection_t config_stat;
 	spi_enable_t spi_stat;
 	spi_interface_t interface_num;
+	int sck_pin;
+	int mosi_pin;
+	int miso_pin;
+	int port;
 } spi_config;
 
 /*****************************************************************************
@@ -120,12 +142,21 @@ typedef struct
 void SPI_HAL_Config_Interface_DMA(spi_config* config);
 void SPI_HAL_Config_Interface_Std(spi_config* config);
 void SPI_Write_Config(SPI_Interface_Map_Ptr interface_map_ptr, spi_config* config);
-void SPI_HAL_Interface_Slave_Select(int slave_port, int slave_pin);
-uint16_t SPI_HAL_Interface_Slave_Read(spi_interface_t interface_num);
-void SPI_HAL_Interface_Slave_Write(uint16_t data_frame);
-uint16_t SPI_HAL_Interface_Rx_Buffer_Stat();
-void SPI_HAL_Write_Reg(uint16_t *reg_addr, uint16_t val);
-uint16_t SPI_HAL_Read_Reg(uint16_t *reg_addr);
+void SPI_HAL_Interface_Slave_Select(int slave_port, int slave_pin, int slave_select_state);
+uint8_t SPI_HAL_Interface_Slave_Read_8(interface_t interface_num);
+uint16_t SPI_HAL_Interface_Slave_Read_16(interface_t interface_num);
+void SPI_HAL_Interface_Slave_Write_16(interface_t interface_num, uint16_t data_frame);
+void SPI_HAL_Interface_Slave_Write_8(interface_t interface_num, uint8_t data_frame);
+uint32_t SPI_HAL_Interface_Rx_Buffer_Stat(spi_interface_t interface_num);
+uint32_t SPI_HAL_Interface_Tx_Buffer_Stat(spi_interface_t interface_num);
+void SPI_HAL_Write_Reg(uint32_t *reg_addr, uint32_t val);
+uint32_t SPI_HAL_Read_Reg(uint32_t *reg_addr);
+void SPI_HAL_DMA_Transmit(interface_t interface_num,
+		uint32_t *tx_buf,
+		uint32_t buffer_size);
+void SPI_HAL_DMA_Receive(interface_t interface_num,
+		uint32_t *rx_buf,
+		uint32_t buffer_size);
 
 #endif
 
