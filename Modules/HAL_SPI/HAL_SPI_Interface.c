@@ -45,7 +45,7 @@ AFIO_Map_Ptr AFIO_Map = ((AFIO_Map_Ptr)(0x40010000UL));
 /******************************************************************************
 * Function Definitions
 *******************************************************************************/
-void SPI_HAL_Config_Interface_DMA(spi_config* config)
+void SPI_HAL_Config_Interface_DMA(spi_config_t* config)
 {
 	switch((int)config->interface_num)
 	{
@@ -82,7 +82,7 @@ void SPI_HAL_Config_Interface_DMA(spi_config* config)
 	}
 }
 
-void SPI_HAL_Config_Interface_Std(spi_config* config)
+void SPI_HAL_Config_Interface_Std(spi_config_t* config)
 {
 	switch((int)config->interface_num)
 	{
@@ -103,7 +103,7 @@ void SPI_HAL_Config_Interface_Std(spi_config* config)
 	}
 }
 
-void SPI_Write_Config(SPI_Interface_Map_Ptr interface_map_ptr, spi_config* config)
+void SPI_Write_Config(SPI_Interface_Map_Ptr interface_map_ptr, spi_config_t* config)
 {
 	//remap SPI1 to PB3, PB4, PB5
     AFIO_Map->MAPR |= (1UL << 0);
@@ -194,7 +194,7 @@ uint8_t SPI_HAL_Interface_Slave_Read_8(interface_t interface_num)
 	case spi_interface_1:
 		//send dummy data
 		while (((SPI_1_Map_Ptr->SR)&(1<<7))) {};  // wait for BSY bit to Reset -> This will indicate that SPI is not busy in communication
-		SPI_1_Map_Ptr->DR = 1;  // send dummy data
+		SPI_1_Map_Ptr->DR = 0;  // send dummy data
 		while (!((SPI_1_Map_Ptr->SR) &(1<<0))){};  // Wait for RXNE to set -> This will indicate that the Rx buffer is not empty
 		//read the 8 lsb of the data register
 		data_frame = (SPI_1_Map_Ptr->DR);
@@ -221,13 +221,28 @@ uint16_t SPI_HAL_Interface_Slave_Read_16(interface_t interface_num)
 
 	switch ((int) interface_num) {
 	case spi_interface_1:
-		data_frame = SPI_1_Map_Ptr->DR;
+		//send dummy data
+		while (((SPI_1_Map_Ptr->SR)&(1<<7))) {};  // wait for BSY bit to Reset -> This will indicate that SPI is not busy in communication
+		SPI_1_Map_Ptr->DR = 0;  // send dummy data
+		while (!((SPI_1_Map_Ptr->SR) &(1<<0))){};  // Wait for RXNE to set -> This will indicate that the Rx buffer is not empty
+		//read the 16 lsb of the data register
+		data_frame = (SPI_1_Map_Ptr->DR);
 		break;
 	case spi_interface_2:
-		data_frame = SPI_2_Map_Ptr->DR;
+		//send dummy data
+		while (((SPI_2_Map_Ptr->SR)&(1<<7))) {};  // wait for BSY bit to Reset -> This will indicate that SPI is not busy in communication
+		SPI_2_Map_Ptr->DR = 0;  // send dummy data
+		while (!((SPI_2_Map_Ptr->SR) &(1<<0))){};  // Wait for RXNE to set -> This will indicate that the Rx buffer is not empty
+		//read the 16 lsb of the data register
+		data_frame = (SPI_2_Map_Ptr->DR);
 		break;
 	case spi_interface_3:
-		data_frame = SPI_3_Map_Ptr->DR;
+		//send dummy data
+		while (((SPI_3_Map_Ptr->SR)&(1<<7))) {};  // wait for BSY bit to Reset -> This will indicate that SPI is not busy in communication
+		SPI_3_Map_Ptr->DR = 0;  // send dummy data
+		while (!((SPI_3_Map_Ptr->SR) &(1<<0))){};  // Wait for RXNE to set -> This will indicate that the Rx buffer is not empty
+		//read the 16 lsb of the data register
+		data_frame = (SPI_3_Map_Ptr->DR);
 		break;
 	default:
 		break;
@@ -236,57 +251,111 @@ uint16_t SPI_HAL_Interface_Slave_Read_16(interface_t interface_num)
 	return data_frame;
 }
 
-void SPI_HAL_Interface_Slave_Write_16(interface_t interface_num, uint16_t data_frame)
+void SPI_HAL_Interface_Slave_Write_16(interface_t interface_num,
+		uint16_t *data_frame, const int data_count)
 {
-	//wait for the TXE to be available
-	while (!SPI_HAL_Interface_Tx_Buffer_Stat(interface_num));
-
 	switch ((uint32_t) interface_num) {
 	case spi_interface_1:
+		for (int i = 0; i < data_count; i++)
+		{
+			//wait for the Tx buffer to become available
+			while (!SPI_HAL_Interface_Tx_Buffer_Stat(interface_num));
 
-		while (!((SPI_1_Map_Ptr->SR)&(1<<1))) {};  // wait for TXE bit to set -> This will indicate that the buffer is empty
-		SPI_1_Map_Ptr->DR = data_frame;  // load the data into the Data Register
+			//write the data frame
+			SPI_1_Map_Ptr->DR = data_frame[i];
 
-		while (!((SPI_1_Map_Ptr->SR)&(1<<1))) {};  // wait for TXE bit to set -> This will indicate that the buffer is empty
-		while (((SPI_1_Map_Ptr->SR)&(1<<7))) {};  // wait for BSY bit to Reset -> This will indicate that SPI is not busy in communication
+			//clear the overrun flag by reading the DR and SR
+			uint16_t temp = SPI_1_Map_Ptr->DR;
+			temp = SPI_1_Map_Ptr->SR;
+		}
 
-			//  Clear the Overrun flag by reading DR and SR
-		uint8_t temp = SPI_1_Map_Ptr->DR;
-		temp = SPI_1_Map_Ptr->SR;
 		break;
 	case spi_interface_2:
-		SPI_2_Map_Ptr->DR = data_frame;
+		for (int i = 0; i < data_count; i++)
+		{
+			//wait for the Tx buffer to become available
+			while (!SPI_HAL_Interface_Tx_Buffer_Stat(interface_num));
+
+			//write the data frame
+			SPI_2_Map_Ptr->DR = data_frame[i];
+
+			//clear the overrun flag by reading the DR and SR
+			uint16_t temp = SPI_2_Map_Ptr->DR;
+			temp = SPI_2_Map_Ptr->SR;
+		}
+
 		break;
 	case spi_interface_3:
-		SPI_3_Map_Ptr->DR = data_frame;
+		for (int i = 0; i < data_count; i++)
+		{
+			//wait for the Tx buffer to become available
+			while (!SPI_HAL_Interface_Tx_Buffer_Stat(interface_num));
+
+			//write the data frame
+			SPI_3_Map_Ptr->DR = data_frame[i];
+
+			//clear the overrun flag by reading the DR and SR
+			uint16_t temp = SPI_3_Map_Ptr->DR;
+			temp = SPI_3_Map_Ptr->SR;
+		}
+
 		break;
 	default:
 		break;
 	}
 }
 
-void SPI_HAL_Interface_Slave_Write_8(interface_t interface_num, uint8_t data_frame)
+void SPI_HAL_Interface_Slave_Write_8(interface_t interface_num,
+		uint8_t *data_frame, const int data_count)
 {
 	//wait for the TXE to be available
 	while (!SPI_HAL_Interface_Tx_Buffer_Stat(interface_num));
 
 	switch ((uint32_t) interface_num) {
 	case spi_interface_1:
-		while (!((SPI_1_Map_Ptr->SR)&(1<<1))) {};  // wait for TXE bit to set -> This will indicate that the buffer is empty
-		SPI_1_Map_Ptr->DR = data_frame;  // load the data into the Data Register
+		for (int i = 0; i < data_count; i++)
+		{
+			//wait for the Tx buffer to become available
+			while (!SPI_HAL_Interface_Tx_Buffer_Stat(interface_num));
 
-		while (!((SPI_1_Map_Ptr->SR)&(1<<1))) {};  // wait for TXE bit to set -> This will indicate that the buffer is empty
-		while (((SPI_1_Map_Ptr->SR)&(1<<7))) {};  // wait for BSY bit to Reset -> This will indicate that SPI is not busy in communication
+			//write the data frame
+			SPI_1_Map_Ptr->DR = data_frame[i];
 
-			//  Clear the Overrun flag by reading DR and SR
-		uint8_t temp = SPI_1_Map_Ptr->DR;
-		temp = SPI_1_Map_Ptr->SR;
+			//clear the overrun flag by reading the DR and SR
+			uint16_t temp = SPI_1_Map_Ptr->DR;
+			temp = SPI_1_Map_Ptr->SR;
+		}
+
 		break;
 	case spi_interface_2:
-		SPI_2_Map_Ptr->DR = data_frame;
+		for (int i = 0; i < data_count; i++)
+		{
+			//wait for the Tx buffer to become available
+			while (!SPI_HAL_Interface_Tx_Buffer_Stat(interface_num));
+
+			//write the data frame
+			SPI_2_Map_Ptr->DR = data_frame[i];
+
+			//clear the overrun flag by reading the DR and SR
+			uint16_t temp = SPI_2_Map_Ptr->DR;
+			temp = SPI_2_Map_Ptr->SR;
+		}
+
 		break;
 	case spi_interface_3:
-		SPI_3_Map_Ptr->DR = data_frame;
+		for (int i = 0; i < data_count; i++)
+		{
+			//wait for the Tx buffer to become available
+			while (!SPI_HAL_Interface_Tx_Buffer_Stat(interface_num));
+
+			//write the data frame
+			SPI_3_Map_Ptr->DR = data_frame[i];
+
+			//clear the overrun flag by reading the DR and SR
+			uint16_t temp = SPI_3_Map_Ptr->DR;
+			temp = SPI_3_Map_Ptr->SR;
+		}
+
 		break;
 	default:
 		break;
@@ -298,7 +367,7 @@ uint32_t SPI_HAL_Interface_Rx_Buffer_Stat(spi_interface_t interface_num)
 {
 	uint32_t status = 0;
 
-	uint32_t RXE_Full = 1;
+	uint32_t RX_Full = 1;
 	uint32_t RXE_Avail = (1UL << 0);
 
 	switch((int)interface_num)
@@ -306,19 +375,19 @@ uint32_t SPI_HAL_Interface_Rx_Buffer_Stat(spi_interface_t interface_num)
 	case spi_interface_1:
 		if(SPI_1_Map_Ptr->SR & RXE_Avail)
 		{
-			status = RXE_Full;
+			status = RX_Full;
 		}
 		break;
 	case spi_interface_2:
 		if(SPI_2_Map_Ptr->SR & RXE_Avail)
 		{
-			status = RXE_Full;
+			status = RX_Full;
 		}
 		break;
 	case spi_interface_3:
 		if(SPI_3_Map_Ptr->SR & RXE_Avail)
 		{
-			status = RXE_Full;
+			status = RX_Full;
 		}
 		break;
 	default:
@@ -369,19 +438,6 @@ uint32_t SPI_HAL_Read_Reg(uint32_t *reg_addr)
     uint32_t reg_val = *reg_addr;
 
 	return reg_val;
-}
-
-void SPI_HAL_DMA_Transmit(interface_t interface_num,
-		uint32_t *tx_buf,
-		uint32_t buffer_size)
-{
-
-}
-void SPI_HAL_DMA_Receive(interface_t interface_num,
-		uint32_t *rx_buf,
-		uint32_t buffer_size)
-{
-
 }
 
 /*************** END OF FUNCTIONS ***************************************************************************/

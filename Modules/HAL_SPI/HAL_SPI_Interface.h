@@ -134,29 +134,25 @@ typedef struct
 	int mosi_pin;
 	int miso_pin;
 	int port;
-} spi_config;
+} spi_config_t;
 
 /*****************************************************************************
  * FUNCTION PROTOTYPES
  *****************************************************************************/
-void SPI_HAL_Config_Interface_DMA(spi_config* config);
-void SPI_HAL_Config_Interface_Std(spi_config* config);
-void SPI_Write_Config(SPI_Interface_Map_Ptr interface_map_ptr, spi_config* config);
+void SPI_HAL_Config_Interface_DMA(spi_config_t* config);
+void SPI_HAL_Config_Interface_Std(spi_config_t* config);
+void SPI_Write_Config(SPI_Interface_Map_Ptr interface_map_ptr, spi_config_t* config);
 void SPI_HAL_Interface_Slave_Select(int slave_port, int slave_pin, int slave_select_state);
 uint8_t SPI_HAL_Interface_Slave_Read_8(interface_t interface_num);
 uint16_t SPI_HAL_Interface_Slave_Read_16(interface_t interface_num);
-void SPI_HAL_Interface_Slave_Write_16(interface_t interface_num, uint16_t data_frame);
-void SPI_HAL_Interface_Slave_Write_8(interface_t interface_num, uint8_t data_frame);
+void SPI_HAL_Interface_Slave_Write_16(interface_t interface_num,
+		uint16_t *data_frame, const int data_count);
+void SPI_HAL_Interface_Slave_Write_8(interface_t interface_num,
+		uint8_t  *data_frame, const int data_count);
 uint32_t SPI_HAL_Interface_Rx_Buffer_Stat(spi_interface_t interface_num);
 uint32_t SPI_HAL_Interface_Tx_Buffer_Stat(spi_interface_t interface_num);
 void SPI_HAL_Write_Reg(uint32_t *reg_addr, uint32_t val);
 uint32_t SPI_HAL_Read_Reg(uint32_t *reg_addr);
-void SPI_HAL_DMA_Transmit(interface_t interface_num,
-		uint32_t *tx_buf,
-		uint32_t buffer_size);
-void SPI_HAL_DMA_Receive(interface_t interface_num,
-		uint32_t *rx_buf,
-		uint32_t buffer_size);
 
 #endif
 
